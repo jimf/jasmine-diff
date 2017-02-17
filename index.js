@@ -76,13 +76,17 @@ function errorDiff (actual, expected) {
  * @return {object}
  */
 module.exports = function jasmineDiffMatchers (j$) {
-  if (!(j$ && j$.matchers && j$.matchers.toEqual)) {
-    throw new Error('Jasmine Diff Matchers must be initialized with Jasmine instance')
+  if (!(j$ && j$.matchers && j$.addMatchers && j$.matchers.toEqual)) {
+    throw new Error('Jasmine Diff Matchers must be initialized with Jasmine v2 instance')
   }
 
   var origToEqual = j$.matchers.toEqual
 
   function toEqual (util, customEqualityTesters) {
+    function defaultMessage (actual, expected) {
+      return 'Expected ' + j$.pp(expected) + ' to equal ' + j$.pp(actual) + '.'
+    }
+
     return {
       compare: function (actual, expected) {
         var result = origToEqual(util, customEqualityTesters).compare(actual, expected)
@@ -91,10 +95,8 @@ module.exports = function jasmineDiffMatchers (j$) {
           return result
         }
 
-        result.message = 'Expected ' + j$.pp(expected) + ' to equal ' + j$.pp(actual) + '.\n' +
-          '\n' +
-          errorDiff(actual, expected) +
-          '\n'
+        result.message = (result.message || defaultMessage(actual, expected)) +
+          '\n\n' + errorDiff(actual, expected) + '\n'
 
         return result
       }

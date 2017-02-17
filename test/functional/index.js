@@ -7,7 +7,7 @@ test('jasmine diff matchers failure output', t => {
     'test/functional/karma.conf.js'
   ]).stdout.toString().replace(/\t/g, '        ').replace(/^\s+$/gm, '')
 
-  t.ok(result.includes('(4 FAILED)'), 'covers expected number of failure cases')
+  t.ok(result.includes('(8 FAILED)'), 'covers expected number of failure cases')
 
   const numDiffs = result
     .split('\n')
@@ -35,6 +35,8 @@ test('jasmine diff matchers failure output', t => {
         -  "bar": "bar",
         +  "baz": "baz",
   `.trim()), 'displays diff output for objects')
+
+  t.equal((result.match(/not to equal/g) || []).length, 4, 'omits diffs for .not negations')
 
   t.end()
 })

@@ -21,4 +21,19 @@ describe('Jasmine Diff Matchers', function () {
       expect({ foo: 'foo', bar: 'bar' }).toEqual({ foo: 'foo', baz: 'baz' })
     })
   })
+
+  describe('not.toEqual', function () {
+    it('should omit diff when comparing null/undefined', function () {
+      expect(null).not.toEqual(null)
+    })
+    it('should omit diff when comparing scalars', function () {
+      expect(42).not.toEqual(42)
+    })
+    it('should show diff when comparing arrays', function () {
+      expect([1, 2, 3]).not.toEqual([1, 2, 3])
+    })
+    it('should show diff when comparing objects', function () {
+      expect({ foo: 'foo', bar: 'bar' }).not.toEqual({ foo: 'foo', bar: 'bar' })
+    })
+  })
 })
