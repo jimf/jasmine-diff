@@ -45,12 +45,12 @@ Enables colored diff output.
 
 MIT
 
-[build-badge]: https://img.shields.io/travis/jimf/karma-min-reporter/master.svg
-[build-status]: https://travis-ci.org/jimf/karma-min-reporter
-[npm-badge]: https://img.shields.io/npm/v/karma-min-reporter.svg
-[npm]: https://www.npmjs.org/package/karma-min-reporter
-[coverage-badge]: https://img.shields.io/coveralls/jimf/karma-min-reporter.svg
-[coverage-result]: https://coveralls.io/r/jimf/karma-min-reporter
-[dep-badge]: https://img.shields.io/david/jimf/karma-min-reporter.svg
-[dep-status]: https://david-dm.org/jimf/karma-min-reporter
+[build-badge]: https://img.shields.io/travis/jimf/jasmine-diff-matchers/master.svg
+[build-status]: https://travis-ci.org/jimf/jasmine-diff-matchers
+[npm-badge]: https://img.shields.io/npm/v/jasmine-diff-matchers.svg
+[npm]: https://www.npmjs.org/package/jasmine-diff-matchers
+[coverage-badge]: https://img.shields.io/coveralls/jimf/jasmine-diff-matchers.svg
+[coverage-result]: https://coveralls.io/r/jimf/jasmine-diff-matchers
+[dep-badge]: https://img.shields.io/david/jimf/jasmine-diff-matchers.svg
+[dep-status]: https://david-dm.org/jimf/jasmine-diff-matchers
 [Jasmine]: https://jasmine.github.io/
