@@ -75,5 +75,31 @@ test('toEqual', t => {
     actual.message.includes('\x1B[31m- actual\x1B[0m')
   ), 'colorizes output when colors:true is specified')
 
+  subject = jasmineDiff(createJasmineStub({ toEqualResult: { pass: false } }), { inline: true })
+  actual = subject.toEqual().compare({ foo: 'bar' }, { foo: 'baz' })
+  t.ok((
+    actual.pass === false &&
+    actual.message.includes('actual expected') &&
+    actual.message.includes('"foo": "barbaz"')
+  ), 'outputs inline diff when inline:true is specified')
+
+  subject = jasmineDiff(createJasmineStub({ toEqualResult: { pass: false } }), { inline: true })
+  actual = subject.toEqual().compare({ a: 1, b: 2, c: 3 }, { a: 1, b: 2, c: '3po' })
+  t.ok((
+    actual.pass === false &&
+    actual.message.includes('actual expected') &&
+    actual.message.includes('4 |   "c": 3"3po"')
+  ), 'adds line numbers to inlne diff output when diff exceeds 4 lines')
+
+  subject = jasmineDiff(createJasmineStub({ toEqualResult: { pass: false } }), { inline: true })
+  actual = subject.toEqual().compare('0123456789'.split(''), '0123456780'.split(''))
+  t.ok((
+    actual.pass === false &&
+    actual.message.includes('actual expected') &&
+    actual.message.includes(' 9 |   "7",') &&
+    actual.message.includes('10 |   "8",') &&
+    actual.message.includes('11 |   "90"')
+  ), 'pads line numbers correctly when inline diff exceeds 10+ lines')
+
   t.end()
 })

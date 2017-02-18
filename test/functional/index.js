@@ -57,3 +57,31 @@ test('jasmine diff with colors enabled', t => {
 
   t.end()
 })
+
+test('jasmine diff with inline mode enabled', t => {
+  const result = spawn.sync('karma', [
+    'start',
+    'test/functional/karma.conf.inline.js'
+  ]).stdout.toString().replace(/\t/g, '        ').replace(/^\s+$/gm, '')
+
+  t.ok(result.includes(`
+        \x1B[31mactual\x1B[0m \x1B[32mexpected\x1B[0m
+
+        {
+          "bar": "\x1B[31mbar\x1B[0m\x1B[32mbaz\x1B[0m",
+          "foo": "foo"
+        }
+  `.trim()), 'displays inline diffs')
+
+  t.ok(result.includes(`
+        \x1B[31mactual\x1B[0m \x1B[32mexpected\x1B[0m
+
+        1 | {
+        2 |   "bar": "bar",
+        3 |   "baz": "\x1B[31mqux\x1B[0m\x1B[32mbaz\x1B[0m",
+        4 |   "foo": "foo"
+        5 | }
+  `.trim()), 'shows line numbers when diff exceeds 4 lines')
+
+  t.end()
+})

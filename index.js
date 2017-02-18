@@ -42,6 +42,13 @@ function stringify (val) {
   return jsonStringify(val, { space: 2 })
 }
 
+function lpad (str, width) {
+  while (String(str).length < width) {
+    str = ' ' + str
+  }
+  return str
+}
+
 /**
  * Jasmine Diff Matchers
  *
@@ -58,7 +65,8 @@ module.exports = function jasmineDiffMatchers (j$, options) {
 
   var origToEqual = j$.matchers.toEqual
   var opts = {
-    colors: options && options.colors === true
+    colors: options && options.colors === true,
+    inline: options && options.inline === true
   }
 
   function red (str) {
@@ -76,7 +84,7 @@ module.exports = function jasmineDiffMatchers (j$, options) {
    * @param {*} expected Expected value
    * @return {string}
    */
-  function errorDiff (actual, expected) {
+  function unifiedDiff (actual, expected) {
     return [
       green('+ expected'),
       red('- actual'),
@@ -94,6 +102,38 @@ module.exports = function jasmineDiffMatchers (j$, options) {
         })
     )
     .join('\n')
+  }
+
+  /**
+   * Return inline diff of actual vs expected.
+   *
+   * @param {*} actual Actual value
+   * @param {*} expected Expected value
+   * @return {string}
+   */
+  function inlineDiff (actual, expected) {
+    var result = diff.diffWordsWithSpace(stringify(actual), stringify(expected))
+      .map(function (line, idx) {
+        return line.added ? green(line.value)
+          : line.removed ? red(line.value)
+          : line.value
+      })
+      .join('')
+
+    var lines = result.split('\n')
+    if (lines.length > 4) {
+      result = lines
+        .map(function (line, idx) {
+          return lpad(idx + 1, String(lines.length).length) + ' | ' + line
+        })
+        .join('\n')
+    }
+
+    return red('actual') + ' ' + green('expected') + '\n\n' + result
+  }
+
+  function errorDiff (actual, expected) {
+    return opts.inline ? inlineDiff(actual, expected) : unifiedDiff(actual, expected)
   }
 
   function toEqual (util, customEqualityTesters) {

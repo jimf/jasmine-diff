@@ -8,8 +8,6 @@ error messages.
 [![Test Coverage][coverage-badge]][coverage-result]
 [![Dependency Status][dep-badge]][dep-status]
 
-_Work in progress._
-
 __Jasmine Diff__ takes the standard Jasmine matchers and decorates them, adding
 diff output where it makes sense, i.e., when comparing objects and arrays where
 noticing differences by eye with the standard Jasmine output can be cumbersome.
@@ -40,6 +38,10 @@ beforeEach(function () {
 #### `colors` (boolean, default: `false`)
 
 Enables colored diff output.
+
+#### `inline` (boolean, default: `false`)
+
+Display inline diffs (best paired with `colors:true`).
 
 ## License
 
