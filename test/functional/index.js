@@ -40,3 +40,20 @@ test('jasmine diff matchers failure output', t => {
 
   t.end()
 })
+
+test('jasmine diff with colors enabled', t => {
+  const result = spawn.sync('karma', [
+    'start',
+    'test/functional/karma.conf.colors.js'
+  ]).stdout.toString().replace(/\t/g, '        ').replace(/^\s+$/gm, '')
+
+  t.ok(result.includes(`
+        \x1B[32m+ expected\x1B[0m
+        \x1B[31m- actual\x1B[0m
+
+        \x1B[31m-  "bar": "bar",\x1B[0m
+        \x1B[32m+  "baz": "baz",\x1B[0m
+  `.trim()), 'displays diff output with color')
+
+  t.end()
+})

@@ -35,7 +35,9 @@ beforeEach(function () {
 
 ## Available Options
 
-WIP
+#### `colors` (boolean, default: `false`)
+
+Enables colored diff output.
 
 ## License
 

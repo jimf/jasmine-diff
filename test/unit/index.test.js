@@ -67,5 +67,13 @@ test('toEqual', t => {
     actual.message.includes('- actual')
   ), 'uses custom error message along with diff if custom message is specified')
 
+  subject = jasmineDiff(createJasmineStub({ toEqualResult: { pass: false } }), { colors: true })
+  actual = subject.toEqual().compare([1], [2])
+  t.ok((
+    actual.pass === false &&
+    actual.message.includes('\x1B[32m+ expected\x1B[0m') &&
+    actual.message.includes('\x1B[31m- actual\x1B[0m')
+  ), 'colorizes output when colors:true is specified')
+
   t.end()
 })

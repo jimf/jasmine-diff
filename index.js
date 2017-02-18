@@ -43,30 +43,6 @@ function stringify (val) {
 }
 
 /**
- * Return unified diff of actual vs expected.
- *
- * @param {*} actual Actual value
- * @param {*} expected Expected value
- * @return {string}
- */
-function errorDiff (actual, expected) {
-  return [
-    '+ expected',
-    '- actual',
-    ''
-  ]
-  .concat(
-    diff.createPatch('string', stringify(actual), stringify(expected))
-      .split('\n')
-      .slice(4)
-      .filter(function (line) {
-        return line[0] === '+' || line[0] === '-'
-      })
-  )
-  .join('\n')
-}
-
-/**
  * Jasmine Diff Matchers
  *
  * Main export. Returns jasmine matchers for overriding default functionality
@@ -75,12 +51,50 @@ function errorDiff (actual, expected) {
  * @param {object} j$ Jasmine instance
  * @return {object}
  */
-module.exports = function jasmineDiffMatchers (j$) {
+module.exports = function jasmineDiffMatchers (j$, options) {
   if (!(j$ && j$.matchers && j$.addMatchers && j$.matchers.toEqual)) {
     throw new Error('Jasmine Diff Matchers must be initialized with Jasmine v2 instance')
   }
 
   var origToEqual = j$.matchers.toEqual
+  var opts = {
+    colors: options && options.colors === true
+  }
+
+  function red (str) {
+    return opts.colors ? '\x1B[31m' + str + '\x1B[0m' : str
+  }
+
+  function green (str) {
+    return opts.colors ? '\x1B[32m' + str + '\x1B[0m' : str
+  }
+
+  /**
+   * Return unified diff of actual vs expected.
+   *
+   * @param {*} actual Actual value
+   * @param {*} expected Expected value
+   * @return {string}
+   */
+  function errorDiff (actual, expected) {
+    return [
+      green('+ expected'),
+      red('- actual'),
+      ''
+    ]
+    .concat(
+      diff.createPatch('string', stringify(actual), stringify(expected))
+        .split('\n')
+        .slice(4)
+        .filter(function (line) {
+          return line[0] === '+' || line[0] === '-'
+        })
+        .map(function (line) {
+          return line[0] === '+' ? green(line) : red(line)
+        })
+    )
+    .join('\n')
+  }
 
   function toEqual (util, customEqualityTesters) {
     function defaultMessage (actual, expected) {
