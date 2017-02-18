@@ -1,6 +1,6 @@
 # Jasmine Diff Matchers
 
-Override default [Jasmine][] matchers to provide additional diff output in
+Decorate default [Jasmine][] matchers to provide additional diff output in
 error messages.
 
 [![npm Version][npm-badge]][npm]
@@ -9,6 +9,33 @@ error messages.
 [![Dependency Status][dep-badge]][dep-status]
 
 _Work in progress._
+
+__Jasmine Diff Matchers__ takes the standard Jasmine matchers and decorates
+them, adding diff output where it makes sense, i.e., when comparing objects and
+arrays where noticing differences by eye with the standard Jasmine output can
+be cumbersome. By tackling this problem directly at the matcher level, this
+plugin should be compatible with all of your favorite Jasmine reporters.
+
+## Installation
+
+Install using [npm][]:
+
+    $ npm install jasmine-diff-matchers --save-dev
+
+## Usage
+
+Integrate the matchers with your test environment (currently only Jasmine 2.x
+supported):
+
+```js
+beforeEach(function () {
+  jasmine.addMatchers(require('jasmine-diff-matchers')(jasmine))
+})
+```
+
+## Available Options
+
+WIP
 
 ## License
 
