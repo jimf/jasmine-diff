@@ -29,7 +29,9 @@ supported):
 
 ```js
 beforeEach(function () {
-  jasmine.addMatchers(require('jasmine-diff-matchers')(jasmine))
+  jasmine.addMatchers(require('jasmine-diff-matchers')(jasmine, {
+    // Specify options here
+  }))
 })
 ```
 
