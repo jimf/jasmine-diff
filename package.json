@@ -10,6 +10,7 @@
     "lib.js"
   ],
   "scripts": {
+    "dist": "rimraf dist && mkdir dist && browserify --standalone=jasmineDiff -o dist/jasmine-diff.js",
     "coveralls": "nyc report --reporter=text-lcov | coveralls",
     "lint": "standard",
     "pretest": "npm run lint",
@@ -48,6 +49,7 @@
     "karma-jasmine": "^1.1.0",
     "karma-phantomjs-launcher": "^1.0.2",
     "nyc": "^10.0.0",
+    "rimraf": "^2.6.0",
     "standard": "^8.6.0",
     "tape": "^4.6.3",
     "watchify": "^3.9.0"

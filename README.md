@@ -20,6 +20,9 @@ Install using [npm][]:
 
     $ npm install jasmine-diff --save-dev
 
+Or for a manual/browser installation, grab the pre-built [jasmine-diff.js][dist/jasmine-diff.js]
+and embed after Jasmine but before your tests.
+
 ## Usage
 
 Integrate the matchers with your test environment (currently only Jasmine 2.x
