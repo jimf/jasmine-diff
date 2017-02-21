@@ -53,5 +53,10 @@
     "standard": "^8.6.0",
     "tape": "^4.6.3",
     "watchify": "^3.9.0"
+  },
+  "standard": {
+    "ignore": [
+      "dist/"
+    ]
   }
 }
