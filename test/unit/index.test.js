@@ -80,7 +80,7 @@ test('toEqual', t => {
   t.ok((
     actual.pass === false &&
     actual.message.includes('actual expected') &&
-    actual.message.includes('"foo": "barbaz"')
+    actual.message.includes(`'foo': "barbaz"`)
   ), 'outputs inline diff when inline:true is specified')
 
   subject = jasmineDiff(createJasmineStub({ toEqualResult: { pass: false } }), { inline: true })
@@ -88,7 +88,7 @@ test('toEqual', t => {
   t.ok((
     actual.pass === false &&
     actual.message.includes('actual expected') &&
-    actual.message.includes('4 |   "c": 3"3po"')
+    actual.message.includes(`4 |   'c': 3"3po"`)
   ), 'adds line numbers to inlne diff output when diff exceeds 4 lines')
 
   subject = jasmineDiff(createJasmineStub({ toEqualResult: { pass: false } }), { inline: true })
@@ -96,10 +96,66 @@ test('toEqual', t => {
   t.ok((
     actual.pass === false &&
     actual.message.includes('actual expected') &&
-    actual.message.includes(' 9 |   "7",') &&
-    actual.message.includes('10 |   "8",') &&
+    actual.message.includes(' 9 |   "7"') &&
+    actual.message.includes('10 |   "8"') &&
     actual.message.includes('11 |   "90"')
   ), 'pads line numbers correctly when inline diff exceeds 10+ lines')
+
+  subject = jasmineDiff(createJasmineStub({ toEqualResult: { pass: false } }), {})
+  actual = subject.toEqual().compare({}, {
+    a: null,
+    b: undefined,
+    c: 1,
+    d: -1,
+    e: 'a',
+    f: [],
+    g: [1, 2, 3],
+    h: [[1], [2, 3]],
+    i: {},
+    j: { a: 1, b: 2, c: 3 },
+    k: { a: { b: { c: 1 } } }
+  })
+  t.equal(actual.message.split('\n').slice(2).join('\n').trim(), `
++ expected
+- actual
+
+-{}
++{
++  'a': null
++  'b': undefined
++  'c': 1
++  'd': -1
++  'e': "a"
++  'f': []
++  'g': [
++    1
++    2
++    3
++  ]
++  'h': [
++    [
++      1
++    ]
++    [
++      2
++      3
++    ]
++  ]
++  'i': {}
++  'j': {
++    'a': 1
++    'b': 2
++    'c': 3
++  }
++  'k': {
++    'a': {
++      'b': {
++        'c': 1
++      }
++    }
++  }
++}
+`.trim(), 'stringifies all values correctly')
 
   t.end()
 })

@@ -20,6 +20,25 @@ describe('Jasmine Diff Matchers', function () {
     it('should show diff when comparing objects', function () {
       expect({ foo: 'foo', bar: 'bar' }).toEqual({ foo: 'foo', baz: 'baz' })
     })
+    it('should format values', function () {
+      var actual = {}
+      var expected = {
+        a: null,
+        b: undefined,
+        c: 1,
+        d: -1,
+        e: 'a',
+        f: Function.prototype,
+        g: /[aeiou]/,
+        h: [],
+        i: [1, 2, 3],
+        j: [[1], [2, 3]],
+        k: {},
+        l: { a: 1, b: 2, c: 3 },
+        m: { a: { b: { c: 1 } } }
+      }
+      expect(actual).toEqual(expected)
+    })
   })
 
   describe('not.toEqual', function () {
