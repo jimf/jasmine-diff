@@ -49,6 +49,77 @@ function lpad (str, width) {
   return str
 }
 
+function red (str) {
+  return '\x1B[31m' + str + '\x1B[0m'
+}
+
+function green (str) {
+  return '\x1B[32m' + str + '\x1B[0m'
+}
+
+function identity (x) {
+  return x
+}
+
+/**
+ * Return unified diff of actual vs expected.
+ *
+ * @param {*} actual Actual value
+ * @param {*} expected Expected value
+ * @param {function} formatAdd Addition formatter
+ * @param {function} formatRem Removal formatter
+ * @return {string}
+ */
+function unifiedDiff (actual, expected, formatAdd, formatRem) {
+  return [
+    formatAdd('+ expected'),
+    formatRem('- actual'),
+    ''
+  ]
+  .concat(
+    diff.createPatch('string', stringify(actual), stringify(expected))
+      .split('\n')
+      .slice(4)
+      .filter(function (line) {
+        return line[0] === '+' || line[0] === '-'
+      })
+      .map(function (line) {
+        return line[0] === '+' ? formatAdd(line) : formatRem(line)
+      })
+  )
+  .join('\n')
+}
+
+/**
+ * Return inline diff of actual vs expected.
+ *
+ * @param {*} actual Actual value
+ * @param {*} expected Expected value
+ * @param {function} formatAdd Addition formatter
+ * @param {function} formatRem Removal formatter
+ * @return {string}
+ */
+function inlineDiff (actual, expected, formatAdd, formatRem) {
+  var result = diff.diffWordsWithSpace(stringify(actual), stringify(expected))
+    .map(function (line, idx) {
+      return line.added ? formatAdd(line.value)
+        : line.removed ? formatRem(line.value)
+        : line.value
+    })
+    .join('')
+
+  var lines = result.split('\n')
+  if (lines.length > 4) {
+    result = lines
+      .map(function (line, idx) {
+        return lpad(idx + 1, String(lines.length).length) + ' | ' + line
+      })
+      .join('\n')
+  }
+
+  return formatRem('actual') + ' ' + formatAdd('expected') + '\n\n' + result
+}
+
 /**
  * Jasmine Diff Matchers
  *
@@ -68,73 +139,9 @@ module.exports = function jasmineDiffMatchers (j$, options) {
     colors: options && options.colors === true,
     inline: options && options.inline === true
   }
-
-  function red (str) {
-    return opts.colors ? '\x1B[31m' + str + '\x1B[0m' : str
-  }
-
-  function green (str) {
-    return opts.colors ? '\x1B[32m' + str + '\x1B[0m' : str
-  }
-
-  /**
-   * Return unified diff of actual vs expected.
-   *
-   * @param {*} actual Actual value
-   * @param {*} expected Expected value
-   * @return {string}
-   */
-  function unifiedDiff (actual, expected) {
-    return [
-      green('+ expected'),
-      red('- actual'),
-      ''
-    ]
-    .concat(
-      diff.createPatch('string', stringify(actual), stringify(expected))
-        .split('\n')
-        .slice(4)
-        .filter(function (line) {
-          return line[0] === '+' || line[0] === '-'
-        })
-        .map(function (line) {
-          return line[0] === '+' ? green(line) : red(line)
-        })
-    )
-    .join('\n')
-  }
-
-  /**
-   * Return inline diff of actual vs expected.
-   *
-   * @param {*} actual Actual value
-   * @param {*} expected Expected value
-   * @return {string}
-   */
-  function inlineDiff (actual, expected) {
-    var result = diff.diffWordsWithSpace(stringify(actual), stringify(expected))
-      .map(function (line, idx) {
-        return line.added ? green(line.value)
-          : line.removed ? red(line.value)
-          : line.value
-      })
-      .join('')
-
-    var lines = result.split('\n')
-    if (lines.length > 4) {
-      result = lines
-        .map(function (line, idx) {
-          return lpad(idx + 1, String(lines.length).length) + ' | ' + line
-        })
-        .join('\n')
-    }
-
-    return red('actual') + ' ' + green('expected') + '\n\n' + result
-  }
-
-  function errorDiff (actual, expected) {
-    return opts.inline ? inlineDiff(actual, expected) : unifiedDiff(actual, expected)
-  }
+  var annotateAdd = opts.colors ? green : identity
+  var annotateRemove = opts.colors ? red : identity
+  var errorDiff = opts.inline ? inlineDiff : unifiedDiff
 
   function toEqual (util, customEqualityTesters) {
     function defaultMessage (actual, expected) {
@@ -150,7 +157,7 @@ module.exports = function jasmineDiffMatchers (j$, options) {
         }
 
         result.message = (result.message || defaultMessage(actual, expected)) +
-          '\n\n' + errorDiff(actual, expected) + '\n'
+          '\n\n' + errorDiff(actual, expected, annotateAdd, annotateRemove) + '\n'
 
         return result
       }
