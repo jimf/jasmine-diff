@@ -32,9 +32,6 @@
     "test",
     "tdd"
   ],
-  "peerDependencies": {
-    "jasmine": ">=2.0"
-  },
   "dependencies": {
     "diff": "^3.2.0"
   },
