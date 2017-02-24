@@ -16,7 +16,13 @@ const createJasmineStub = (options = {}) => {
         }
       }
     },
-    pp: arg => JSON.stringify(arg)
+    pp: arg => {
+      try {
+        return JSON.stringify(arg)
+      } catch (e) {
+        return '<Jasmine.pp(value)>'
+      }
+    }
   }
 
   return stub
@@ -177,6 +183,42 @@ test('diff behavior', t => {
 +  }
 +}
 `.trim(), 'stringifies all values correctly')
+
+  t.end()
+})
+
+test('circular references', function (t) {
+  var subject
+  var result
+  var arr = [1, 2]
+  var obj = { a: 1, b: 2 }
+
+  arr.push(arr)
+  obj.c = obj
+
+  subject = jasmineDiff(createJasmineStub({ toEqualResult: { pass: false } }), { inline: true })
+  result = subject.toEqual().compare(arr, [1, 2])
+  t.ok(result.message.includes(`
+actual expected
+
+1 | [
+2 |   1
+3 |   2
+4 |   [Circular]
+5 | ]
+  `.trim()), 'handles array circular references')
+
+  subject = jasmineDiff(createJasmineStub({ toEqualResult: { pass: false } }), { inline: true })
+  result = subject.toEqual().compare(obj, { a: 1, b: 2 })
+  t.ok(result.message.includes(`
+actual expected
+
+1 | {
+2 |   'a': 1
+3 |   'b': 2
+4 |   'c': [Circular]
+5 | }
+  `.trim()), 'handles object circular references')
 
   t.end()
 })

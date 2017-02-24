@@ -47,6 +47,7 @@ function Value (val, parent, opts) {
 function traverse (value, v) {
   var state = {}
   var visitor = v.visitor
+  var seen = []
 
   /**
    * Recursively walk the value, dispatching visitor methods as values are encountered.
@@ -61,6 +62,13 @@ function traverse (value, v) {
     var exitFn = wrapper.type + 'Exit'
     var keys
 
+    if (wrapper.type === 'object' || wrapper.type === 'array') {
+      if (seen.indexOf(wrapper.value) >= 0) {
+        wrapper.isCircularRef = true
+      }
+      seen.push(wrapper.value)
+    }
+
     if (wrapper.type === 'object') {
       keys = Object.keys(wrapper.value).sort()
       wrapper.length = keys.length
@@ -74,15 +82,19 @@ function traverse (value, v) {
 
     switch (wrapper.type) {
       case 'array':
-        wrapper.value.forEach(function (child, i) {
-          traverseValue(child, wrapper, { key: i })
-        })
+        if (!wrapper.isCircularRef) {
+          wrapper.value.forEach(function (child, i) {
+            traverseValue(child, wrapper, { key: i })
+          })
+        }
         break
 
       case 'object':
-        keys.forEach(function (key) {
-          traverseValue(wrapper.value[key], wrapper, { key: key })
-        })
+        if (!wrapper.isCircularRef) {
+          keys.forEach(function (key) {
+            traverseValue(wrapper.value[key], wrapper, { key: key })
+          })
+        }
         break
 
       default:
@@ -92,6 +104,10 @@ function traverse (value, v) {
 
     if (visitor[exitFn]) {
       visitor[exitFn](wrapper, state)
+    }
+
+    if (wrapper.type === 'object' || wrapper.type === 'array') {
+      seen.pop()
     }
   }
 
@@ -137,7 +153,10 @@ function prettyPrintVisitor (pp, spaces) {
           state.result += "'" + val.key + "': "
         }
       }
-      if (val.length === 0) {
+      if (val.isCircularRef) {
+        state.result += '[Circular]\n'
+        return
+      } else if (val.length === 0) {
         state.result += '[]\n'
         return
       }
@@ -145,7 +164,7 @@ function prettyPrintVisitor (pp, spaces) {
       state.depth += 1
     },
     arrayExit: function (val, state) {
-      if (val.length === 0) { return }
+      if (val.length === 0 || val.isCircularRef) { return }
       state.depth -= 1
       state.result += repeat(state.depth * spaces, ' ') + ']\n'
     },
@@ -156,7 +175,10 @@ function prettyPrintVisitor (pp, spaces) {
           state.result += "'" + val.key + "': "
         }
       }
-      if (val.length === 0) {
+      if (val.isCircularRef) {
+        state.result += '[Circular]\n'
+        return
+      } else if (val.length === 0) {
         state.result += '{}\n'
         return
       }
@@ -164,7 +186,7 @@ function prettyPrintVisitor (pp, spaces) {
       state.depth += 1
     },
     objectExit: function (val, state) {
-      if (val.length === 0) { return }
+      if (val.length === 0 || val.isCircularRef) { return }
       state.depth -= 1
       state.result += repeat(state.depth * spaces, ' ') + '}\n'
     },
