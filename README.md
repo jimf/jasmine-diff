@@ -8,11 +8,13 @@ error messages.
 [![Test Coverage][coverage-badge]][coverage-result]
 [![Dependency Status][dep-badge]][dep-status]
 
+![screenshot](screenshot.png)
+
 __Jasmine Diff__ takes the standard Jasmine matchers and decorates them, adding
-diff output where it makes sense, i.e., when comparing objects and arrays where
-noticing differences by eye with the standard Jasmine output can be cumbersome.
-By tackling this problem directly at the matcher level, this plugin should be
-compatible with all of your favorite Jasmine reporters.
+diff output where it makes sense, i.e., when comparing objects, arrays and long
+strings where noticing differences by eye with the standard Jasmine output can
+be cumbersome.  By tackling this problem directly at the matcher level, this
+plugin should be compatible with all of your favorite Jasmine reporters.
 
 ## Installation
 
