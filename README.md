@@ -12,7 +12,7 @@ error messages.
 
 __Jasmine Diff__ takes the standard Jasmine matchers and decorates them, adding
 diff output where it makes sense, i.e., when comparing objects, arrays and long
-strings where noticing differences by eye with the standard Jasmine output can
+strings, where noticing differences by eye with the standard Jasmine output can
 be cumbersome.  By tackling this problem directly at the matcher level, this
 plugin should be compatible with all of your favorite Jasmine reporters.
 
@@ -22,7 +22,7 @@ Install using [npm][]:
 
     $ npm install jasmine-diff --save-dev
 
-Or for a manual/browser installation, grab the pre-built [jasmine-diff.js][dist/jasmine-diff.js]
+Or for a manual/browser installation, grab the pre-built [jasmine-diff.js](dist/jasmine-diff.js)
 and embed after Jasmine but before your tests.
 
 ## Usage
