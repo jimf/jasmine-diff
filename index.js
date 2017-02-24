@@ -17,6 +17,16 @@ function getType (val) {
     .toLowerCase()
 }
 
+/**
+ * Value wrapper to contain state.
+ *
+ * @param {*} val Value to wrap
+ * @param {Value|null} parent Parent value
+ * @param {object} [opts] Options
+ * @param {string|number} [opts.key] Key/index if value is contained in an object/array
+ * @param {number} [opts.length] Length if value is an object/array
+ * @return {Value}
+ */
 function Value (val, parent, opts) {
   var obj = Object.create(Value.prototype)
   opts = opts || {}
@@ -28,10 +38,23 @@ function Value (val, parent, opts) {
   return obj
 }
 
+/**
+ * Traverse a value with a visitor object.
+ *
+ * @param {*} value Value to traverse
+ * @param {Visitor} visitor Visitor instance
+ */
 function traverse (value, v) {
   var state = {}
   var visitor = v.visitor
 
+  /**
+   * Recursively walk the value, dispatching visitor methods as values are encountered.
+   *
+   * @param {*} val Value
+   * @param {Value|null} parent Parent value
+   * @param {object} [opts] Additional options
+   */
   function traverseValue (val, parent, opts) {
     var wrapper = Value(val, parent, opts)
     var enterFn = wrapper.type + 'Enter'
@@ -77,6 +100,13 @@ function traverse (value, v) {
   if (v.post) { v.post.call(null, state) }
 }
 
+/**
+ * Repeat a string n number of times (n=0 results in an empty string).
+ *
+ * @param {number} n Times to repeat
+ * @param {string} str String to repeat
+ * @return {string}
+ */
 function repeat (n, str) {
   var result = ''
   while (n > 0) {
@@ -86,6 +116,13 @@ function repeat (n, str) {
   return result
 }
 
+/**
+ * Visitor factory for pretty printing a JavaScript value.
+ *
+ * @param {function} pp Fallback pretty printer
+ * @param {number} spaces Number of spaces for indentation
+ * @return {object} Visitor instance
+ */
 function prettyPrintVisitor (pp, spaces) {
   var visitor = {}
   visitor.pre = function (state) {
@@ -156,6 +193,13 @@ function prettyPrintVisitor (pp, spaces) {
   return visitor
 }
 
+/**
+ * Stringifier factory.
+ *
+ * @param {function} pp Fallback pretty printer
+ * @param {number} spaces Number of spaces for indentation
+ * @return {function}
+ */
 function createStringifier (pp, spaces) {
   return function stringify (value) {
     var visitor = prettyPrintVisitor(pp, spaces)
@@ -184,6 +228,13 @@ function isDiffable (val) {
   }
 }
 
+/**
+ * Left-pad utility.
+ *
+ * @param {string} str String to pad
+ * @param {number} width Total desired width of string
+ * @return {string}
+ */
 function lpad (str, width) {
   while (String(str).length < width) {
     str = ' ' + str
@@ -191,14 +242,32 @@ function lpad (str, width) {
   return str
 }
 
+/**
+ * Wrap string with ANSI sequence for red.
+ *
+ * @param {string} str String to wrap
+ * @return {string}
+ */
 function red (str) {
   return '\x1B[31m' + str + '\x1B[0m'
 }
 
+/**
+ * Wrap string with ANSI sequence for green.
+ *
+ * @param {string} str String to wrap
+ * @return {string}
+ */
 function green (str) {
   return '\x1B[32m' + str + '\x1B[0m'
 }
 
+/**
+ * Identity function.
+ *
+ * @param {*}
+ * @return {*}
+ */
 function identity (x) {
   return x
 }
