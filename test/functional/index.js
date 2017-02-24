@@ -7,13 +7,13 @@ test('jasmine diff matchers failure output', t => {
     'test/functional/karma.conf.js'
   ]).stdout.toString().replace(/\t/g, '        ').replace(/^\s+$/gm, '')
 
-  t.ok(result.includes('(11 FAILED)'), 'covers expected number of failure cases')
+  t.ok(result.includes('(20 FAILED)'), 'covers expected number of failure cases')
 
   const numDiffs = result
     .split('\n')
     .filter(line => line.includes('+ expected'))
     .length
-  t.equal(numDiffs, 5, 'selectively displays diff output based on actual/expected values')
+  t.equal(numDiffs, 10, 'selectively displays diff output based on actual/expected values')
 
   t.ok(result.includes(`
         + expected

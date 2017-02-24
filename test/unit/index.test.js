@@ -5,6 +5,11 @@ const createJasmineStub = (options = {}) => {
   const stub = {
     addMatchers: () => {},
     matchers: {
+      toBe: () => {
+        return {
+          compare: () => options.toBeResult || { pass: true }
+        }
+      },
       toEqual: () => {
         return {
           compare: () => options.toEqualResult || { pass: true }
@@ -23,18 +28,18 @@ test('initialize', t => {
   t.throws(jasmineDiff.bind(null, { matchers: {} }), {}, 'throws if required matchers cannot be found')
 
   const subject = jasmineDiff(createJasmineStub())
-  t.deepEqual(Object.keys(subject), ['toEqual'], 'returns object with expected matchers')
+  t.deepEqual(Object.keys(subject), ['toBe', 'toEqual'], 'returns object with expected matchers')
 
   t.end()
 })
 
-test('toEqual', t => {
+test('diff behavior', t => {
   let subject
   let actual
 
   subject = jasmineDiff(createJasmineStub())
   actual = subject.toEqual().compare({ foo: true }, { foo: true })
-  t.deepEqual(actual, { pass: true }, 'does not modify passing results')
+  t.deepEqual(actual, { pass: true }, 'does nothing for passing results')
 
   subject = jasmineDiff(createJasmineStub({ toEqualResult: { pass: false } }))
   actual = subject.toEqual().compare(1, 2)
@@ -53,8 +58,8 @@ test('toEqual', t => {
   ), 'specifies result message if both args are diffable')
   t.ok(actual.message.match(/Expected \[2] to equal \[1]\./), 'diff message also includes default message')
 
-  subject = jasmineDiff(createJasmineStub({ toEqualResult: { pass: false } }))
-  actual = subject.toEqual().compare((new Array(41)).join('a'), (new Array(41)).join('b'))
+  subject = jasmineDiff(createJasmineStub({ toBeResult: { pass: false } }))
+  actual = subject.toBe().compare((new Array(41)).join('a'), (new Array(41)).join('b'))
   t.ok(actual.message.includes(`
 + expected
 - actual
@@ -63,8 +68,8 @@ test('toEqual', t => {
 +bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
   `.trim()), 'diffs long strings')
 
-  subject = jasmineDiff(createJasmineStub({ toEqualResult: { pass: false } }))
-  actual = subject.toEqual().compare('abc\ndef', 'abc\ngef')
+  subject = jasmineDiff(createJasmineStub({ toBeResult: { pass: false } }))
+  actual = subject.toBe().compare('abc\ndef', 'abc\ngef')
   t.ok(actual.message.includes(`
 + expected
 - actual

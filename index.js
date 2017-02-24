@@ -273,7 +273,6 @@ module.exports = function jasmineDiffMatchers (j$, options) {
     throw new Error('Jasmine Diff Matchers must be initialized with Jasmine v2 instance')
   }
 
-  var origToEqual = j$.matchers.toEqual
   var opts = {
     colors: options && options.colors === true,
     inline: options && options.inline === true,
@@ -284,28 +283,31 @@ module.exports = function jasmineDiffMatchers (j$, options) {
   var errorDiff = opts.inline ? inlineDiff : unifiedDiff
   var stringify = createStringifier(j$.pp, opts.spaces)
 
-  function toEqual (util, customEqualityTesters) {
-    function defaultMessage (actual, expected) {
-      return 'Expected ' + j$.pp(expected) + ' to equal ' + j$.pp(actual) + '.'
-    }
+  function defaultMessage (actual, expected, comparison) {
+    return 'Expected ' + j$.pp(expected) + ' ' + comparison + ' ' + j$.pp(actual) + '.'
+  }
 
-    return {
-      compare: function (actual, expected) {
-        var result = origToEqual(util, customEqualityTesters).compare(actual, expected)
+  function createMatcher (origFn, desc) {
+    return function (util, customEqualityTesters) {
+      return {
+        compare: function (actual, expected) {
+          var result = origFn(util, customEqualityTesters).compare(actual, expected)
 
-        if (result.pass || !(isDiffable(actual) && isDiffable(expected))) {
+          if (result.pass || !(isDiffable(actual) && isDiffable(expected))) {
+            return result
+          }
+
+          result.message = (result.message || defaultMessage(actual, expected, desc)) +
+            '\n\n' + errorDiff(stringify(actual), stringify(expected), annotateAdd, annotateRemove) + '\n'
+
           return result
         }
-
-        result.message = (result.message || defaultMessage(actual, expected)) +
-          '\n\n' + errorDiff(stringify(actual), stringify(expected), annotateAdd, annotateRemove) + '\n'
-
-        return result
       }
     }
   }
 
   return {
-    toEqual: toEqual
+    toBe: createMatcher(j$.matchers.toBe, 'to be'),
+    toEqual: createMatcher(j$.matchers.toEqual, 'to equal')
   }
 }
