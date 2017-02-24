@@ -10,7 +10,7 @@
     "lib.js"
   ],
   "scripts": {
-    "dist": "rimraf dist && mkdir dist && browserify --standalone=jasmineDiff -o dist/jasmine-diff.js",
+    "dist": "rimraf dist && mkdir dist && browserify index.js --standalone=jasmineDiff -o dist/jasmine-diff.js",
     "coveralls": "nyc report --reporter=text-lcov | coveralls",
     "lint": "standard",
     "pretest": "npm run lint",
