@@ -7,7 +7,7 @@
   "main": "index.js",
   "files": [
     "index.js",
-    "lib.js"
+    "dist"
   ],
   "scripts": {
     "dist": "rimraf dist && mkdir dist && browserify index.js --standalone=jasmineDiff -o dist/jasmine-diff.js",
