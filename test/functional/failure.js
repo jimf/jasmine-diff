@@ -45,7 +45,8 @@ describe('Jasmine Diff Matchers', function () {
         j: [[1], [2, 3]],
         k: {},
         l: { a: 1, b: 2, c: 3 },
-        m: { a: { b: { c: 1 } } }
+        m: { a: { b: { c: 1 } } },
+        n: { a: [{ b: true }] }
       }
       expect(actual).toBe(expected)
     })
@@ -104,7 +105,8 @@ describe('Jasmine Diff Matchers', function () {
         j: [[1], [2, 3]],
         k: {},
         l: { a: 1, b: 2, c: 3 },
-        m: { a: { b: { c: 1 } } }
+        m: { a: { b: { c: 1 } } },
+        n: { a: [{ b: true }] }
       }
       expect(actual).toEqual(expected)
     })

@@ -113,8 +113,11 @@ function prettyPrintVisitor (pp, spaces) {
       state.result += repeat(state.depth * spaces, ' ') + ']\n'
     },
     objectEnter: function (val, state) {
-      if (val.key !== undefined && val.parent.type === 'object') {
-        state.result += repeat(state.depth * spaces, ' ') + "'" + val.key + "': "
+      if (val.key !== undefined) {
+        state.result += repeat(state.depth * spaces, ' ')
+        if (val.parent.type === 'object') {
+          state.result += "'" + val.key + "': "
+        }
       }
       if (val.length === 0) {
         state.result += '{}\n'

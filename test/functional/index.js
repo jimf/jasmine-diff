@@ -95,6 +95,13 @@ test('jasmine diff matchers failure output', t => {
         +      }
         +    }
         +  }
+        +  'n': {
+        +    'a': [
+        +      {
+        +        'b': true
+        +      }
+        +    ]
+        +  }
         +}
   `.trim()), 'properly stringifies values')
 
