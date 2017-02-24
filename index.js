@@ -128,6 +128,17 @@ function prettyPrintVisitor (pp, spaces) {
       state.depth -= 1
       state.result += repeat(state.depth * spaces, ' ') + '}\n'
     },
+    stringEnter: function (val, state) {
+      if (val.parent === null) {
+        state.result += pp(val.value).slice(1, -1)
+        return
+      }
+      state.result += repeat(state.depth * spaces, ' ')
+      if (val.parent.type === 'object') {
+        state.result += "'" + val.key + "': "
+      }
+      state.result += pp(val.value) + '\n'
+    },
     otherEnter: function (val, state) {
       state.result += repeat(state.depth * spaces, ' ')
       if (val.key !== undefined && val.parent.type === 'object') {
@@ -157,8 +168,17 @@ function createStringifier (pp, spaces) {
  * @return {boolean}
  */
 function isDiffable (val) {
-  var type = getType(val)
-  return type === 'object' || type === 'array'
+  switch (getType(val)) {
+    case 'array':
+    case 'object':
+      return true
+
+    case 'string':
+      return val.length >= 40 || (val.trim().match(/\n/g) || []).length >= 1
+
+    default:
+      return false
+  }
 }
 
 function lpad (str, width) {

@@ -14,6 +14,16 @@ describe('Jasmine Diff Matchers', function () {
     it('should omit diff when comparing scalars', function () {
       expect(42).toEqual(true)
     })
+    it('should show diff when comparing long strings', function () {
+      expect('The quick brown fox jumped over the lazy dog').toEqual(
+        'The quick black cat hissed at the lazy dog'
+      )
+    })
+    it('should show diff when comparing multiline strings', function () {
+      expect('The quick brown fox\njumped over the lazy dog').toEqual(
+        'The quick black cat\nhissed at the lazy dog'
+      )
+    })
     it('should show diff when comparing arrays', function () {
       expect([1, 2, 3]).toEqual([1, 2, 3, 4])
     })

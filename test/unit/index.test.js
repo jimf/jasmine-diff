@@ -41,12 +41,8 @@ test('toEqual', t => {
   t.deepEqual(actual, { pass: false }, 'does not specify result message if args are scalars')
 
   subject = jasmineDiff(createJasmineStub({ toEqualResult: { pass: false } }))
-  actual = subject.toEqual().compare(1, [2])
-  t.deepEqual(actual, { pass: false }, 'does not specify result message if only one arg is an array')
-
-  subject = jasmineDiff(createJasmineStub({ toEqualResult: { pass: false } }))
-  actual = subject.toEqual().compare(1, { foo: 2 })
-  t.deepEqual(actual, { pass: false }, 'does not specify result message if only one arg is an object')
+  actual = subject.toEqual().compare('1', [2])
+  t.deepEqual(actual, { pass: false }, 'does not specify result message if only one arg is diffable')
 
   subject = jasmineDiff(createJasmineStub({ toEqualResult: { pass: false } }))
   actual = subject.toEqual().compare([1], [2])
@@ -56,6 +52,26 @@ test('toEqual', t => {
     actual.message.includes('- actual')
   ), 'specifies result message if both args are diffable')
   t.ok(actual.message.match(/Expected \[2] to equal \[1]\./), 'diff message also includes default message')
+
+  subject = jasmineDiff(createJasmineStub({ toEqualResult: { pass: false } }))
+  actual = subject.toEqual().compare((new Array(41)).join('a'), (new Array(41)).join('b'))
+  t.ok(actual.message.includes(`
++ expected
+- actual
+
+-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
++bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+  `.trim()), 'diffs long strings')
+
+  subject = jasmineDiff(createJasmineStub({ toEqualResult: { pass: false } }))
+  actual = subject.toEqual().compare('abc\ndef', 'abc\ngef')
+  t.ok(actual.message.includes(`
++ expected
+- actual
+
+-abc\\ndef
++abc\\ngef
+  `.trim()), 'diffs multiline strings')
 
   subject = jasmineDiff(createJasmineStub({ toEqualResult: { pass: false, message: 'Custom error message' } }))
   actual = subject.toEqual().compare([1], [2])
