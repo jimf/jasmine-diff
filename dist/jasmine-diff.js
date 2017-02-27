@@ -18,6 +18,16 @@ function getType (val) {
     .toLowerCase()
 }
 
+/**
+ * Value wrapper to contain state.
+ *
+ * @param {*} val Value to wrap
+ * @param {Value|null} parent Parent value
+ * @param {object} [opts] Options
+ * @param {string|number} [opts.key] Key/index if value is contained in an object/array
+ * @param {number} [opts.length] Length if value is an object/array
+ * @return {Value}
+ */
 function Value (val, parent, opts) {
   var obj = Object.create(Value.prototype)
   opts = opts || {}
@@ -29,15 +39,36 @@ function Value (val, parent, opts) {
   return obj
 }
 
+/**
+ * Traverse a value with a visitor object.
+ *
+ * @param {*} value Value to traverse
+ * @param {Visitor} visitor Visitor instance
+ */
 function traverse (value, v) {
   var state = {}
   var visitor = v.visitor
+  var seen = []
 
+  /**
+   * Recursively walk the value, dispatching visitor methods as values are encountered.
+   *
+   * @param {*} val Value
+   * @param {Value|null} parent Parent value
+   * @param {object} [opts] Additional options
+   */
   function traverseValue (val, parent, opts) {
     var wrapper = Value(val, parent, opts)
     var enterFn = wrapper.type + 'Enter'
     var exitFn = wrapper.type + 'Exit'
     var keys
+
+    if (wrapper.type === 'object' || wrapper.type === 'array') {
+      if (seen.indexOf(wrapper.value) >= 0) {
+        wrapper.isCircularRef = true
+      }
+      seen.push(wrapper.value)
+    }
 
     if (wrapper.type === 'object') {
       keys = Object.keys(wrapper.value).sort()
@@ -52,15 +83,19 @@ function traverse (value, v) {
 
     switch (wrapper.type) {
       case 'array':
-        wrapper.value.forEach(function (child, i) {
-          traverseValue(child, wrapper, { key: i })
-        })
+        if (!wrapper.isCircularRef) {
+          wrapper.value.forEach(function (child, i) {
+            traverseValue(child, wrapper, { key: i })
+          })
+        }
         break
 
       case 'object':
-        keys.forEach(function (key) {
-          traverseValue(wrapper.value[key], wrapper, { key: key })
-        })
+        if (!wrapper.isCircularRef) {
+          keys.forEach(function (key) {
+            traverseValue(wrapper.value[key], wrapper, { key: key })
+          })
+        }
         break
 
       default:
@@ -71,6 +106,10 @@ function traverse (value, v) {
     if (visitor[exitFn]) {
       visitor[exitFn](wrapper, state)
     }
+
+    if (wrapper.type === 'object' || wrapper.type === 'array') {
+      seen.pop()
+    }
   }
 
   if (v.pre) { v.pre.call(null, state) }
@@ -78,6 +117,13 @@ function traverse (value, v) {
   if (v.post) { v.post.call(null, state) }
 }
 
+/**
+ * Repeat a string n number of times (n=0 results in an empty string).
+ *
+ * @param {number} n Times to repeat
+ * @param {string} str String to repeat
+ * @return {string}
+ */
 function repeat (n, str) {
   var result = ''
   while (n > 0) {
@@ -87,6 +133,13 @@ function repeat (n, str) {
   return result
 }
 
+/**
+ * Visitor factory for pretty printing a JavaScript value.
+ *
+ * @param {function} pp Fallback pretty printer
+ * @param {number} spaces Number of spaces for indentation
+ * @return {object} Visitor instance
+ */
 function prettyPrintVisitor (pp, spaces) {
   var visitor = {}
   visitor.pre = function (state) {
@@ -101,7 +154,10 @@ function prettyPrintVisitor (pp, spaces) {
           state.result += "'" + val.key + "': "
         }
       }
-      if (val.length === 0) {
+      if (val.isCircularRef) {
+        state.result += '[Circular]\n'
+        return
+      } else if (val.length === 0) {
         state.result += '[]\n'
         return
       }
@@ -109,15 +165,21 @@ function prettyPrintVisitor (pp, spaces) {
       state.depth += 1
     },
     arrayExit: function (val, state) {
-      if (val.length === 0) { return }
+      if (val.length === 0 || val.isCircularRef) { return }
       state.depth -= 1
       state.result += repeat(state.depth * spaces, ' ') + ']\n'
     },
     objectEnter: function (val, state) {
-      if (val.key !== undefined && val.parent.type === 'object') {
-        state.result += repeat(state.depth * spaces, ' ') + "'" + val.key + "': "
+      if (val.key !== undefined) {
+        state.result += repeat(state.depth * spaces, ' ')
+        if (val.parent.type === 'object') {
+          state.result += "'" + val.key + "': "
+        }
       }
-      if (val.length === 0) {
+      if (val.isCircularRef) {
+        state.result += '[Circular]\n'
+        return
+      } else if (val.length === 0) {
         state.result += '{}\n'
         return
       }
@@ -125,7 +187,7 @@ function prettyPrintVisitor (pp, spaces) {
       state.depth += 1
     },
     objectExit: function (val, state) {
-      if (val.length === 0) { return }
+      if (val.length === 0 || val.isCircularRef) { return }
       state.depth -= 1
       state.result += repeat(state.depth * spaces, ' ') + '}\n'
     },
@@ -154,6 +216,13 @@ function prettyPrintVisitor (pp, spaces) {
   return visitor
 }
 
+/**
+ * Stringifier factory.
+ *
+ * @param {function} pp Fallback pretty printer
+ * @param {number} spaces Number of spaces for indentation
+ * @return {function}
+ */
 function createStringifier (pp, spaces) {
   return function stringify (value) {
     var visitor = prettyPrintVisitor(pp, spaces)
@@ -182,6 +251,13 @@ function isDiffable (val) {
   }
 }
 
+/**
+ * Left-pad utility.
+ *
+ * @param {string} str String to pad
+ * @param {number} width Total desired width of string
+ * @return {string}
+ */
 function lpad (str, width) {
   while (String(str).length < width) {
     str = ' ' + str
@@ -189,14 +265,32 @@ function lpad (str, width) {
   return str
 }
 
+/**
+ * Wrap string with ANSI sequence for red.
+ *
+ * @param {string} str String to wrap
+ * @return {string}
+ */
 function red (str) {
   return '\x1B[31m' + str + '\x1B[0m'
 }
 
+/**
+ * Wrap string with ANSI sequence for green.
+ *
+ * @param {string} str String to wrap
+ * @return {string}
+ */
 function green (str) {
   return '\x1B[32m' + str + '\x1B[0m'
 }
 
+/**
+ * Identity function.
+ *
+ * @param {*}
+ * @return {*}
+ */
 function identity (x) {
   return x
 }
