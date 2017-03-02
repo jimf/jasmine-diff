@@ -222,3 +222,17 @@ actual expected
 
   t.end()
 })
+
+test('long, asymmetric, colored, inline diffs', function (t) {
+  // Bugfix, see #5
+  var subject = jasmineDiff(createJasmineStub({ toEqualResult: { pass: false } }), { colors: true, inline: true })
+  var result = subject.toEqual().compare({ a: 1, b: 2, c: 3 }, { a: 1 })
+  t.ok(result.message.includes(`
+1 | {
+2 |   'a': 1
+3 | \x1B[31m  'b': 2\x1B[0m
+4 | \x1B[31m  'c': 3\x1B[0m
+5 | }
+  `.trim()), 'does not bleed colors into line numbers')
+  t.end()
+})
