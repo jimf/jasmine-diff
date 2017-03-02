@@ -48,6 +48,14 @@ Enables colored diff output.
 
 Display inline diffs (best paired with `colors:true`).
 
+## Changelog
+
+#### 0.1.1
+- Fix colors bleeding into line numbers (#5)
+
+#### 0.1.0
+- Initial release
+
 ## License
 
 MIT
