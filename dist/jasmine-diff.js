@@ -325,6 +325,23 @@ function unifiedDiff (actual, expected, formatAdd, formatRem) {
 }
 
 /**
+ * Run a transformation function over the lines within a string and return the
+ * result.
+ *
+ * @param {function} formatter Formatter function
+ * @param {string} str String to format
+ * @return {string}
+ */
+function formatLinesWith (formatter, str) {
+  return str
+    .split('\n')
+    .map(function (line) {
+      return line.length ? formatter(line) : ''
+    })
+    .join('\n')
+}
+
+/**
  * Return inline diff of actual vs expected.
  *
  * @param {*} actual Actual value
@@ -336,8 +353,8 @@ function unifiedDiff (actual, expected, formatAdd, formatRem) {
 function inlineDiff (actual, expected, formatAdd, formatRem) {
   var result = diff.diffWordsWithSpace(actual, expected)
     .map(function (line, idx) {
-      return line.added ? formatAdd(line.value)
-        : line.removed ? formatRem(line.value)
+      return line.added ? formatLinesWith(formatAdd, line.value)
+        : line.removed ? formatLinesWith(formatRem, line.value)
         : line.value
     })
     .join('')
