@@ -1,6 +1,6 @@
 {
   "name": "jasmine-diff",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Jasmine diff matchers",
   "author": "Jim Fitzpatrick",
   "license": "MIT",

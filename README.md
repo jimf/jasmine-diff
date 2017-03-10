@@ -50,6 +50,9 @@ Display inline diffs (best paired with `colors:true`).
 
 ## Changelog
 
+#### 0.1.2
+- Fix actual/expected order in default matcher output (#6)
+
 #### 0.1.1
 - Fix colors bleeding into line numbers (#5)
 
