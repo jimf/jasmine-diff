@@ -396,7 +396,7 @@ module.exports = function jasmineDiffMatchers (j$, options) {
   var stringify = createStringifier(j$.pp, opts.spaces)
 
   function defaultMessage (actual, expected, comparison) {
-    return 'Expected ' + j$.pp(expected) + ' ' + comparison + ' ' + j$.pp(actual) + '.'
+    return 'Expected ' + j$.pp(actual) + ' ' + comparison + ' ' + j$.pp(expected) + '.'
   }
 
   function createMatcher (origFn, desc) {
