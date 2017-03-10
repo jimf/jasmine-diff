@@ -34,7 +34,7 @@ test('jasmine diff matchers failure output', t => {
   `.trim()), 'displays diff output for multiline strings')
 
   t.ok(result.includes(`
-        Expected [ 1, 2, 3, 4 ] to equal [ 1, 2, 3 ].
+        Expected [ 1, 2, 3 ] to equal [ 1, 2, 3, 4 ].
 
         + expected
         - actual
@@ -43,7 +43,7 @@ test('jasmine diff matchers failure output', t => {
   `.trim()), 'displays diff output for arrays')
 
   t.ok(result.includes(`
-        Expected Object({ foo: 'foo', baz: 'baz' }) to equal Object({ foo: 'foo', bar: 'bar' }).
+        Expected Object({ foo: 'foo', bar: 'bar' }) to equal Object({ foo: 'foo', baz: 'baz' }).
 
         + expected
         - actual

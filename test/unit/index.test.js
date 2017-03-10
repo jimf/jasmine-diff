@@ -62,7 +62,7 @@ test('diff behavior', t => {
     actual.message.includes('+ expected') &&
     actual.message.includes('- actual')
   ), 'specifies result message if both args are diffable')
-  t.ok(actual.message.match(/Expected \[2] to equal \[1]\./), 'diff message also includes default message')
+  t.ok(actual.message.match(/Expected \[1] to equal \[2]\./), 'diff message also includes default message')
 
   subject = jasmineDiff(createJasmineStub({ toBeResult: { pass: false } }))
   actual = subject.toBe().compare((new Array(41)).join('a'), (new Array(41)).join('b'))
