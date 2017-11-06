@@ -1,0 +1,243 @@
+PhantomJS 2.1.1 (Mac OS X 0.0.0) Jasmine Diff Matchers toBe should omit diff when comparing null/undefined FAILED
+	Expected null to be undefined.
+	/var/folders/x3/t7h_ctrn0151f51k6nsvtcl40001z4/T/failure.js:12:0 <- /var/folders/x3/t7h_ctrn0151f51k6nsvtcl40001z4/T/89e0464e73cdbed3366e80b1656c159b.browserify:2291:24
+	loaded@http://localhost:9876/context.js:162:17
+PhantomJS 2.1.1 (Mac OS X 0.0.0) Jasmine Diff Matchers toBe should omit diff when comparing scalars FAILED
+	Expected 42 to be true.
+	/var/folders/x3/t7h_ctrn0151f51k6nsvtcl40001z4/T/failure.js:15:0 <- /var/folders/x3/t7h_ctrn0151f51k6nsvtcl40001z4/T/89e0464e73cdbed3366e80b1656c159b.browserify:2294:22
+PhantomJS 2.1.1 (Mac OS X 0.0.0) Jasmine Diff Matchers toBe should show diff when comparing long strings FAILED
+	Expected 'The quick brown fox jumped over the lazy dog' to be 'The quick black cat hissed at the lazy dog'.
+	
+	+ expected
+	- actual
+	
+	-The quick brown fox jumped over the lazy dog
+	+The quick black cat hissed at the lazy dog
+	
+	/var/folders/x3/t7h_ctrn0151f51k6nsvtcl40001z4/T/failure.js:18:0 <- /var/folders/x3/t7h_ctrn0151f51k6nsvtcl40001z4/T/89e0464e73cdbed3366e80b1656c159b.browserify:2297:66
+PhantomJS 2.1.1 (Mac OS X 0.0.0) Jasmine Diff Matchers toBe should show diff when comparing multiline strings FAILED
+	Expected 'The quick brown fox
+	jumped over the lazy dog' to be 'The quick black cat
+	hissed at the lazy dog'.
+	
+	+ expected
+	- actual
+	
+	-The quick brown fox
+	-jumped over the lazy dog
+	+The quick black cat
+	+hissed at the lazy dog
+	
+	/var/folders/x3/t7h_ctrn0151f51k6nsvtcl40001z4/T/failure.js:23:0 <- /var/folders/x3/t7h_ctrn0151f51k6nsvtcl40001z4/T/89e0464e73cdbed3366e80b1656c159b.browserify:2302:67
+PhantomJS 2.1.1 (Mac OS X 0.0.0) Jasmine Diff Matchers toBe should show diff when comparing arrays FAILED
+	Expected [ 1, 2, 3 ] to be [ 1, 2, 3, 4 ].
+	
+	+ expected
+	- actual
+	
+	+  4
+	
+	/var/folders/x3/t7h_ctrn0151f51k6nsvtcl40001z4/T/failure.js:28:0 <- /var/folders/x3/t7h_ctrn0151f51k6nsvtcl40001z4/T/89e0464e73cdbed3366e80b1656c159b.browserify:2307:29
+PhantomJS 2.1.1 (Mac OS X 0.0.0) Jasmine Diff Matchers toBe should show diff when comparing objects FAILED
+	Expected Object({ foo: 'foo', bar: 'bar' }) to be Object({ foo: 'foo', baz: 'baz' }).
+	
+	+ expected
+	- actual
+	
+	-  'bar': 'bar'
+	+  'baz': 'baz'
+	
+	/var/folders/x3/t7h_ctrn0151f51k6nsvtcl40001z4/T/failure.js:31:0 <- /var/folders/x3/t7h_ctrn0151f51k6nsvtcl40001z4/T/89e0464e73cdbed3366e80b1656c159b.browserify:2310:46
+PhantomJS 2.1.1 (Mac OS X 0.0.0) Jasmine Diff Matchers toBe should format values FAILED
+	Expected Object({  }) to be Object({ a: null, b: undefined, c: 1, d: -1, e: 'a', f: Function, g: /[aeiou]/, h: [  ], i: [ 1, 2, 3 ], j: [ [ 1 ], [ 2, 3 ] ], k: Object({  }), l: Object({ a: 1, b: 2, c: 3 }), m: Object({ a: Object({ b: Object({ c: 1 }) }) }), n: Object({ a: [ Object({ b: true }) ] }) }).
+	
+	+ expected
+	- actual
+	
+	-{}
+	+{
+	+  'a': null
+	+  'b': undefined
+	+  'c': 1
+	+  'd': -1
+	+  'e': 'a'
+	+  'f': Function
+	+  'g': /[aeiou]/
+	+  'h': []
+	+  'i': [
+	+    1
+	+    2
+	+    3
+	+  ]
+	+  'j': [
+	+    [
+	+      1
+	+    ]
+	+    [
+	+      2
+	+      3
+	+    ]
+	+  ]
+	+  'k': {}
+	+  'l': {
+	+    'a': 1
+	+    'b': 2
+	+    'c': 3
+	+  }
+	+  'm': {
+	+    'a': {
+	+      'b': {
+	+        'c': 1
+	+      }
+	+    }
+	+  }
+	+  'n': {
+	+    'a': [
+	+      {
+	+        'b': true
+	+      }
+	+    ]
+	+  }
+	+}
+	
+	/var/folders/x3/t7h_ctrn0151f51k6nsvtcl40001z4/T/failure.js:51:0 <- /var/folders/x3/t7h_ctrn0151f51k6nsvtcl40001z4/T/89e0464e73cdbed3366e80b1656c159b.browserify:2330:26
+PhantomJS 2.1.1 (Mac OS X 0.0.0) Jasmine Diff Matchers not.toBe should omit diff when comparing null/undefined FAILED
+	Expected null not to be null.
+	/var/folders/x3/t7h_ctrn0151f51k6nsvtcl40001z4/T/failure.js:57:0 <- /var/folders/x3/t7h_ctrn0151f51k6nsvtcl40001z4/T/89e0464e73cdbed3366e80b1656c159b.browserify:2336:28
+PhantomJS 2.1.1 (Mac OS X 0.0.0) Jasmine Diff Matchers not.toBe should omit diff when comparing scalars FAILED
+	Expected 42 not to be 42.
+	/var/folders/x3/t7h_ctrn0151f51k6nsvtcl40001z4/T/failure.js:60:0 <- /var/folders/x3/t7h_ctrn0151f51k6nsvtcl40001z4/T/89e0464e73cdbed3366e80b1656c159b.browserify:2339:26
+..
+PhantomJS 2.1.1 (Mac OS X 0.0.0) Jasmine Diff Matchers toEqual should omit diff when comparing null/undefined FAILED
+	Expected null to equal undefined.
+	/var/folders/x3/t7h_ctrn0151f51k6nsvtcl40001z4/T/failure.js:72:0 <- /var/folders/x3/t7h_ctrn0151f51k6nsvtcl40001z4/T/89e0464e73cdbed3366e80b1656c159b.browserify:2351:27
+PhantomJS 2.1.1 (Mac OS X 0.0.0) Jasmine Diff Matchers toEqual should omit diff when comparing scalars FAILED
+	Expected 42 to equal true.
+	/var/folders/x3/t7h_ctrn0151f51k6nsvtcl40001z4/T/failure.js:75:0 <- /var/folders/x3/t7h_ctrn0151f51k6nsvtcl40001z4/T/89e0464e73cdbed3366e80b1656c159b.browserify:2354:25
+PhantomJS 2.1.1 (Mac OS X 0.0.0) Jasmine Diff Matchers toEqual should show diff when comparing long strings FAILED
+	Expected 'The quick brown fox jumped over the lazy dog' to equal 'The quick black cat hissed at the lazy dog'.
+	
+	+ expected
+	- actual
+	
+	-The quick brown fox jumped over the lazy dog
+	+The quick black cat hissed at the lazy dog
+	
+	/var/folders/x3/t7h_ctrn0151f51k6nsvtcl40001z4/T/failure.js:78:0 <- /var/folders/x3/t7h_ctrn0151f51k6nsvtcl40001z4/T/89e0464e73cdbed3366e80b1656c159b.browserify:2357:69
+PhantomJS 2.1.1 (Mac OS X 0.0.0) Jasmine Diff Matchers toEqual should show diff when comparing multiline strings FAILED
+	Expected 'The quick brown fox
+	jumped over the lazy dog' to equal 'The quick black cat
+	hissed at the lazy dog'.
+	
+	+ expected
+	- actual
+	
+	-The quick brown fox
+	-jumped over the lazy dog
+	+The quick black cat
+	+hissed at the lazy dog
+	
+	/var/folders/x3/t7h_ctrn0151f51k6nsvtcl40001z4/T/failure.js:83:0 <- /var/folders/x3/t7h_ctrn0151f51k6nsvtcl40001z4/T/89e0464e73cdbed3366e80b1656c159b.browserify:2362:70
+PhantomJS 2.1.1 (Mac OS X 0.0.0) Jasmine Diff Matchers toEqual should show diff when comparing arrays FAILED
+	Expected $.length = 3 to equal 4.
+	Expected $[3] = undefined to equal 4.
+	
+	+ expected
+	- actual
+	
+	+  4
+	
+	/var/folders/x3/t7h_ctrn0151f51k6nsvtcl40001z4/T/failure.js:88:0 <- /var/folders/x3/t7h_ctrn0151f51k6nsvtcl40001z4/T/89e0464e73cdbed3366e80b1656c159b.browserify:2367:32
+PhantomJS 2.1.1 (Mac OS X 0.0.0) Jasmine Diff Matchers toEqual should show diff when comparing objects FAILED
+	Expected object to have properties
+	    baz: 'baz'
+	Expected object not to have properties
+	    bar: 'bar'
+	
+	+ expected
+	- actual
+	
+	-  'bar': 'bar'
+	+  'baz': 'baz'
+	
+	/var/folders/x3/t7h_ctrn0151f51k6nsvtcl40001z4/T/failure.js:91:0 <- /var/folders/x3/t7h_ctrn0151f51k6nsvtcl40001z4/T/89e0464e73cdbed3366e80b1656c159b.browserify:2370:49
+PhantomJS 2.1.1 (Mac OS X 0.0.0) Jasmine Diff Matchers toEqual should format values FAILED
+	Expected object to have properties
+	    a: null
+	    b: undefined
+	    c: 1
+	    d: -1
+	    e: 'a'
+	    f: Function
+	    g: /[aeiou]/
+	    h: [  ]
+	    i: [ 1, 2, 3 ]
+	    j: [ [ 1 ], [ 2, 3 ] ]
+	    k: Object({  })
+	    l: Object({ a: 1, b: 2, c: 3 })
+	    m: Object({ a: Object({ b: Object({ c: 1 }) }) })
+	    n: Object({ a: [ Object({ b: true }) ] })
+	
+	+ expected
+	- actual
+	
+	-{}
+	+{
+	+  'a': null
+	+  'b': undefined
+	+  'c': 1
+	+  'd': -1
+	+  'e': 'a'
+	+  'f': Function
+	+  'g': /[aeiou]/
+	+  'h': []
+	+  'i': [
+	+    1
+	+    2
+	+    3
+	+  ]
+	+  'j': [
+	+    [
+	+      1
+	+    ]
+	+    [
+	+      2
+	+      3
+	+    ]
+	+  ]
+	+  'k': {}
+	+  'l': {
+	+    'a': 1
+	+    'b': 2
+	+    'c': 3
+	+  }
+	+  'm': {
+	+    'a': {
+	+      'b': {
+	+        'c': 1
+	+      }
+	+    }
+	+  }
+	+  'n': {
+	+    'a': [
+	+      {
+	+        'b': true
+	+      }
+	+    ]
+	+  }
+	+}
+	
+	/var/folders/x3/t7h_ctrn0151f51k6nsvtcl40001z4/T/failure.js:111:0 <- /var/folders/x3/t7h_ctrn0151f51k6nsvtcl40001z4/T/89e0464e73cdbed3366e80b1656c159b.browserify:2390:29
+PhantomJS 2.1.1 (Mac OS X 0.0.0) Jasmine Diff Matchers not.toEqual should omit diff when comparing null/undefined FAILED
+	Expected null not to equal null.
+	/var/folders/x3/t7h_ctrn0151f51k6nsvtcl40001z4/T/failure.js:117:0 <- /var/folders/x3/t7h_ctrn0151f51k6nsvtcl40001z4/T/89e0464e73cdbed3366e80b1656c159b.browserify:2396:31
+PhantomJS 2.1.1 (Mac OS X 0.0.0) Jasmine Diff Matchers not.toEqual should omit diff when comparing scalars FAILED
+	Expected 42 not to equal 42.
+	/var/folders/x3/t7h_ctrn0151f51k6nsvtcl40001z4/T/failure.js:120:0 <- /var/folders/x3/t7h_ctrn0151f51k6nsvtcl40001z4/T/89e0464e73cdbed3366e80b1656c159b.browserify:2399:29
+PhantomJS 2.1.1 (Mac OS X 0.0.0) Jasmine Diff Matchers not.toEqual should show diff when comparing arrays FAILED
+	Expected [ 1, 2, 3 ] not to equal [ 1, 2, 3 ].
+	/var/folders/x3/t7h_ctrn0151f51k6nsvtcl40001z4/T/failure.js:123:0 <- /var/folders/x3/t7h_ctrn0151f51k6nsvtcl40001z4/T/89e0464e73cdbed3366e80b1656c159b.browserify:2402:36
+PhantomJS 2.1.1 (Mac OS X 0.0.0) Jasmine Diff Matchers not.toEqual should show diff when comparing objects FAILED
+	Expected Object({ foo: 'foo', bar: 'bar' }) not to equal Object({ foo: 'foo', bar: 'bar' }).
+	/var/folders/x3/t7h_ctrn0151f51k6nsvtcl40001z4/T/failure.js:126:0 <- /var/folders/x3/t7h_ctrn0151f51k6nsvtcl40001z4/T/89e0464e73cdbed3366e80b1656c159b.browserify:2405:53
+PhantomJS 2.1.1 (Mac OS X 0.0.0): Executed 22 of 22 (20 FAILED) (0.033 secs / 0.02 secs)

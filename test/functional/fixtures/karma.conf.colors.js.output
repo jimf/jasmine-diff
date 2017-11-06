@@ -1,0 +1,15 @@
+PhantomJS 2.1.1 (Mac OS X 0.0.0) Jasmine Diff Matchers toEqual should show diff with colors FAILED
+	Expected object to have properties
+	    baz: 'baz'
+	Expected object not to have properties
+	    bar: 'bar'
+	
+	[32m+ expected[0m
+	[31m- actual[0m
+	
+	[31m-  'bar': 'bar'[0m
+	[32m+  'baz': 'baz'[0m
+	
+	/var/folders/x3/t7h_ctrn0151f51k6nsvtcl40001z4/T/failure_colored.js:12:0 <- /var/folders/x3/t7h_ctrn0151f51k6nsvtcl40001z4/T/d2ab8711400d415d82fff1b0b8ee14d1.browserify:2291:49
+	loaded@http://localhost:9876/context.js:162:17
+PhantomJS 2.1.1 (Mac OS X 0.0.0): Executed 1 of 1 (1 FAILED) ERROR (0.009 secs / 0.007 secs)

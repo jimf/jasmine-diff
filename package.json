@@ -17,7 +17,11 @@
     "test:unit": "nyc tape test/unit/*.test.js",
     "test:functional": "tape test/functional",
     "test": "npm run test:unit && npm run test:functional",
-    "validate": "npm test && npm run coveralls"
+    "validate": "npm test && npm run coveralls",
+    "update-fixture1": "karma start test/functional/karma.conf.js > test/functional/fixtures/karma.conf.js.output || exit 0",
+    "update-fixture2": "karma start test/functional/karma.conf.inline.js > test/functional/fixtures/karma.conf.inline.js.output || exit 0",
+    "update-fixture3": "karma start test/functional/karma.conf.colors.js > test/functional/fixtures/karma.conf.colors.js.output || exit 0",
+    "update-fixtures": "npm run update-fixture1 && npm run update-fixture2 && npm run update-fixture3"
   },
   "homepage": "https://github.com/jimf/jasmine-diff",
   "repository": {

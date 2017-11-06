@@ -230,8 +230,8 @@ test('long, asymmetric, colored, inline diffs', function (t) {
   t.ok(result.message.includes(`
 1 | {
 2 |   'a': 1
-3 | \x1B[31m  'b': 2\x1B[0m
-4 | \x1B[31m  'c': 3\x1B[0m
+3 | \x1B[41m\x1B[37m  'b': 2\x1B[0m\x1B[0m
+4 | \x1B[41m\x1B[37m  'c': 3\x1B[0m\x1B[0m
 5 | }
   `.trim()), 'does not bleed colors into line numbers')
   t.end()

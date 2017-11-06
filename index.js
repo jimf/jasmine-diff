@@ -265,24 +265,36 @@ function lpad (str, width) {
 }
 
 /**
- * Wrap string with ANSI sequence for red.
- *
- * @param {string} str String to wrap
- * @return {string}
+ * Compose (B combinator).
  */
-function red (str) {
-  return '\x1B[31m' + str + '\x1B[0m'
+function B (f, g) {
+  return function (x) {
+    return f(g(x))
+  }
 }
 
 /**
- * Wrap string with ANSI sequence for green.
+ * Create a colorize function.
  *
- * @param {string} str String to wrap
- * @return {string}
+ * @param {number} code ANSI color code
+ * @return {function}
  */
-function green (str) {
-  return '\x1B[32m' + str + '\x1B[0m'
+function color (code) {
+  /**
+   * Wrap string with ANSI sequence for given color code.
+   *
+   * @param {string} str String to wrap
+   * @return {string}
+   */
+  return function (str) {
+    return '\x1B[' + code + 'm' + str + '\x1B[0m'
+  }
 }
+
+var red = color(31)
+var green = color(32)
+var redBg = B(color(41), color(37))
+var greenBg = B(color(42), color(30))
 
 /**
  * Identity function.
@@ -389,8 +401,8 @@ module.exports = function jasmineDiffMatchers (j$, options) {
     inline: options && options.inline === true,
     spaces: 2
   }
-  var annotateAdd = opts.colors ? green : identity
-  var annotateRemove = opts.colors ? red : identity
+  var annotateAdd = opts.colors ? (opts.inline ? greenBg : green) : identity
+  var annotateRemove = opts.colors ? (opts.inline ? redBg : red) : identity
   var errorDiff = opts.inline ? inlineDiff : unifiedDiff
   var stringify = createStringifier(j$.pp, opts.spaces)
 

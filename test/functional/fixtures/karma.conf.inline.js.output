@@ -1,0 +1,25 @@
+PhantomJS 2.1.1 (Mac OS X 0.0.0) Jasmine Diff Matchers toEqual should show inline diff with colors FAILED
+	Expected $.bar = 'bar' to equal 'baz'.
+	
+	[41m[37mactual[0m[0m [42m[30mexpected[0m[0m
+	
+	{
+	  'bar': '[41m[37mbar[0m[0m[42m[30mbaz[0m[0m'
+	  'foo': 'foo'
+	}
+	
+	/var/folders/x3/t7h_ctrn0151f51k6nsvtcl40001z4/T/failure_inline.js:12:0 <- /var/folders/x3/t7h_ctrn0151f51k6nsvtcl40001z4/T/ed2f426bd5eee6ce9d7ff9abaeb0afe6.browserify:2291:49
+	loaded@http://localhost:9876/context.js:162:17
+PhantomJS 2.1.1 (Mac OS X 0.0.0) Jasmine Diff Matchers toEqual should include line numbers when diff exceeds 4 lines FAILED
+	Expected $.baz = 'qux' to equal 'baz'.
+	
+	[41m[37mactual[0m[0m [42m[30mexpected[0m[0m
+	
+	1 | {
+	2 |   'bar': 'bar'
+	3 |   'baz': '[41m[37mqux[0m[0m[42m[30mbaz[0m[0m'
+	4 |   'foo': 'foo'
+	5 | }
+	
+	/var/folders/x3/t7h_ctrn0151f51k6nsvtcl40001z4/T/failure_inline.js:16:0 <- /var/folders/x3/t7h_ctrn0151f51k6nsvtcl40001z4/T/ed2f426bd5eee6ce9d7ff9abaeb0afe6.browserify:2295:61
+PhantomJS 2.1.1 (Mac OS X 0.0.0): Executed 2 of 2 (2 FAILED) ERROR (0.011 secs / 0.007 secs)
