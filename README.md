@@ -50,6 +50,9 @@ Display inline diffs (best paired with `colors:true`).
 
 ## Changelog
 
+#### 0.1.3
+- Use background colors for `inline:true, colors:true` (#8)
+
 #### 0.1.2
 - Fix actual/expected order in default matcher output (#6)
 
