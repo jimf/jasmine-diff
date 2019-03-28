@@ -429,9 +429,51 @@ module.exports = function jasmineDiffMatchers (j$, options) {
       }
     }
   }
+  
+  // originally from jasmine-core@2.x
+
+  function createCallMatcher() {
+    var getErrorMsg = j$.formatErrorMsg('<toHaveBeenCalledWith>', 'expect(<spyObj>).toHaveBeenCalledWith(...arguments)');
+
+    return function toHaveBeenCalledWith(util, customEqualityTesters) {
+      return {
+        compare: function () {
+          var args = Array.prototype.slice.call(arguments, 0),
+              actual = args[0],
+              expectedArgs = args.slice(1),
+              result = { pass: false };
+
+          if (!j$.isSpy(actual)) {
+            throw new Error(getErrorMsg('Expected a spy, but got ' + j$.pp(actual) + '.'));
+          }
+
+          if (!actual.calls.any()) {
+            result.message = function () { return 'Expected spy ' + actual.and.identity() + ' to have been called with ' + j$.pp(expectedArgs) + ' but it was never called.'; };
+            return result;
+          }
+
+          if (util.contains(actual.calls.allArgs(), expectedArgs, customEqualityTesters)) {
+            result.pass = true;
+            result.message = function () { return 'Expected spy ' + actual.and.identity() + ' not to have been called with ' + j$.pp(expectedArgs) + ' but it was.'; };
+          } else {
+            result.message = function () {
+              return 'Expected spy ' + actual.and.identity() + ' to have been called with different arguments:\n' +
+                actual.calls.allArgs().map(
+                  (actualArgs) => errorDiff(stringify(actualArgs), stringify(expectedArgs), annotateAdd, annotateRemove)
+                ).join('\n')
+                + '\n';
+            };
+          }
+
+          return result;
+        }
+      };
+    };
+  }
 
   return {
     toBe: createMatcher(j$.matchers.toBe, 'to be'),
-    toEqual: createMatcher(j$.matchers.toEqual, 'to equal')
+    toEqual: createMatcher(j$.matchers.toEqual, 'to equal'),
+    toHaveBeenCalledWith: createCallMatcher()
   }
 }
