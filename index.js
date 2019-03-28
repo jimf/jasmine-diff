@@ -432,7 +432,7 @@ module.exports = function jasmineDiffMatchers (j$, options) {
   
   // originally from jasmine-core@2.x
 
-  function createCallMatcher() {
+function createCallMatcher() {
     var getErrorMsg = j$.formatErrorMsg('<toHaveBeenCalledWith>', 'expect(<spyObj>).toHaveBeenCalledWith(...arguments)');
 
     return function toHaveBeenCalledWith(util, customEqualityTesters) {
@@ -459,7 +459,10 @@ module.exports = function jasmineDiffMatchers (j$, options) {
             result.message = function () {
               return 'Expected spy ' + actual.and.identity() + ' to have been called with different arguments:\n' +
                 actual.calls.allArgs().map(
-                  (actualArgs) => errorDiff(stringify(actualArgs), stringify(expectedArgs), annotateAdd, annotateRemove)
+                  (actualArgs) =>
+                    isDiffable(actualArgs) && isDiffable(expectedArgs) ?
+                    errorDiff(stringify(actualArgs), stringify(expectedArgs), annotateAdd, annotateRemove) :
+                    j$.pp(expectedArgs)
                 ).join('\n')
                 + '\n';
             };
