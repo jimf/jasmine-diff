@@ -1,0 +1,225 @@
+Started
+FFFFFFFFF..FFFFFFFFFFF
+
+Failures:
+1) Jasmine Diff Matchers toBe should omit diff when comparing null/undefined
+Expected null to be undefined.
+2) Jasmine Diff Matchers toBe should omit diff when comparing scalars
+Expected 42 to be true.
+3) Jasmine Diff Matchers toBe should show diff when comparing long strings
+Expected 'The quick brown fox jumped over the lazy dog' to be 'The quick black cat hissed at the lazy dog'.
+
++ expected
+- actual
+
+-The quick brown fox jumped over the lazy dog
++The quick black cat hissed at the lazy dog
+
+4) Jasmine Diff Matchers toBe should show diff when comparing multiline strings
+Expected 'The quick brown fox
+jumped over the lazy dog' to be 'The quick black cat
+hissed at the lazy dog'.
+
++ expected
+- actual
+
+-The quick brown fox
+-jumped over the lazy dog
++The quick black cat
++hissed at the lazy dog
+
+5) Jasmine Diff Matchers toBe should show diff when comparing arrays
+Expected [ 1, 2, 3 ] to be [ 1, 2, 3, 4 ]. Tip: To check for deep equality, use .toEqual() instead of .toBe().
+
++ expected
+- actual
+
++  4
+
+6) Jasmine Diff Matchers toBe should show diff when comparing objects
+Expected Object({ foo: 'foo', bar: 'bar' }) to be Object({ foo: 'foo', baz: 'baz' }). Tip: To check for deep equality, use .toEqual() instead of .toBe().
+
++ expected
+- actual
+
+-  'bar': 'bar'
++  'baz': 'baz'
+
+7) Jasmine Diff Matchers toBe should format values
+Expected Object({  }) to be Object({ a: null, b: undefined, c: 1, d: -1, e: 'a', f: Function, g: /[aeiou]/, h: [  ], i: [ 1, 2, 3 ], j: [ [ 1 ], [ 2, 3 ] ], k: Object({  }), l: Object({ a: 1, b: 2, c: 3 }), m: Object({ a: Object({ b: Object({ c: 1 }) }) }), n: Object({ a: [ Object({ b: true }) ] }) }). Tip: To check for deep equality, use .toEqual() instead of .toBe().
+
++ expected
+- actual
+
+-{}
++{
++  'a': null
++  'b': undefined
++  'c': 1
++  'd': -1
++  'e': 'a'
++  'f': Function
++  'g': /[aeiou]/
++  'h': []
++  'i': [
++    1
++    2
++    3
++  ]
++  'j': [
++    [
++      1
++    ]
++    [
++      2
++      3
++    ]
++  ]
++  'k': {}
++  'l': {
++    'a': 1
++    'b': 2
++    'c': 3
++  }
++  'm': {
++    'a': {
++      'b': {
++        'c': 1
++      }
++    }
++  }
++  'n': {
++    'a': [
++      {
++        'b': true
++      }
++    ]
++  }
++}
+
+8) Jasmine Diff Matchers not.toBe should omit diff when comparing null/undefined
+Expected null not to be null. Tip: To check for deep equality, use .toEqual() instead of .toBe().
+9) Jasmine Diff Matchers not.toBe should omit diff when comparing scalars
+Expected 42 not to be 42.
+10) Jasmine Diff Matchers toEqual should omit diff when comparing null/undefined
+Expected null to equal undefined.
+11) Jasmine Diff Matchers toEqual should omit diff when comparing scalars
+Expected 42 to equal true.
+12) Jasmine Diff Matchers toEqual should show diff when comparing long strings
+Expected 'The quick brown fox jumped over the lazy dog' to equal 'The quick black cat hissed at the lazy dog'.
+
++ expected
+- actual
+
+-The quick brown fox jumped over the lazy dog
++The quick black cat hissed at the lazy dog
+
+13) Jasmine Diff Matchers toEqual should show diff when comparing multiline strings
+Expected 'The quick brown fox
+jumped over the lazy dog' to equal 'The quick black cat
+hissed at the lazy dog'.
+
++ expected
+- actual
+
+-The quick brown fox
+-jumped over the lazy dog
++The quick black cat
++hissed at the lazy dog
+
+14) Jasmine Diff Matchers toEqual should show diff when comparing arrays
+Expected $.length = 3 to equal 4.
+Expected $[3] = undefined to equal 4.
+
++ expected
+- actual
+
++  4
+
+15) Jasmine Diff Matchers toEqual should show diff when comparing objects
+Expected object to have properties
+    baz: 'baz'
+Expected object not to have properties
+    bar: 'bar'
+
++ expected
+- actual
+
+-  'bar': 'bar'
++  'baz': 'baz'
+
+16) Jasmine Diff Matchers toEqual should format values
+Expected object to have properties
+    a: null
+    b: undefined
+    c: 1
+    d: -1
+    e: 'a'
+    f: Function
+    g: /[aeiou]/
+    h: [  ]
+    i: [ 1, 2, 3 ]
+    j: [ [ 1 ], [ 2, 3 ] ]
+    k: Object({  })
+    l: Object({ a: 1, b: 2, c: 3 })
+    m: Object({ a: Object({ b: Object({ c: 1 }) }) })
+    n: Object({ a: [ Object({ b: true }) ] })
+
++ expected
+- actual
+
+-{}
++{
++  'a': null
++  'b': undefined
++  'c': 1
++  'd': -1
++  'e': 'a'
++  'f': Function
++  'g': /[aeiou]/
++  'h': []
++  'i': [
++    1
++    2
++    3
++  ]
++  'j': [
++    [
++      1
++    ]
++    [
++      2
++      3
++    ]
++  ]
++  'k': {}
++  'l': {
++    'a': 1
++    'b': 2
++    'c': 3
++  }
++  'm': {
++    'a': {
++      'b': {
++        'c': 1
++      }
++    }
++  }
++  'n': {
++    'a': [
++      {
++        'b': true
++      }
++    ]
++  }
++}
+
+17) Jasmine Diff Matchers not.toEqual should omit diff when comparing null/undefined
+Expected null not to equal null.
+18) Jasmine Diff Matchers not.toEqual should omit diff when comparing scalars
+Expected 42 not to equal 42.
+19) Jasmine Diff Matchers not.toEqual should show diff when comparing arrays
+Expected [ 1, 2, 3 ] not to equal [ 1, 2, 3 ].
+20) Jasmine Diff Matchers not.toEqual should show diff when comparing objects
+Expected Object({ foo: 'foo', bar: 'bar' }) not to equal Object({ foo: 'foo', bar: 'bar' }).
+22 spec(s) / 20 failure(s)
