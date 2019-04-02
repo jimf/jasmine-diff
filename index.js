@@ -321,18 +321,18 @@ function unifiedDiff (actual, expected, formatAdd, formatRem) {
     formatRem('- actual'),
     ''
   ]
-  .concat(
-    diff.createPatch('string', actual, expected)
-      .split('\n')
-      .slice(4)
-      .filter(function (line) {
-        return line[0] === '+' || line[0] === '-'
-      })
-      .map(function (line) {
-        return line[0] === '+' ? formatAdd(line) : formatRem(line)
-      })
-  )
-  .join('\n')
+    .concat(
+      diff.createPatch('string', actual, expected)
+        .split('\n')
+        .slice(4)
+        .filter(function (line) {
+          return line[0] === '+' || line[0] === '-'
+        })
+        .map(function (line) {
+          return line[0] === '+' ? formatAdd(line) : formatRem(line)
+        })
+    )
+    .join('\n')
 }
 
 /**
@@ -364,8 +364,9 @@ function formatLinesWith (formatter, str) {
 function inlineDiff (actual, expected, formatAdd, formatRem) {
   var result = diff.diffWordsWithSpace(actual, expected)
     .map(function (line, idx) {
-      return line.added ? formatLinesWith(formatAdd, line.value)
-        : line.removed ? formatLinesWith(formatRem, line.value)
+      if (line.added) { return formatLinesWith(formatAdd, line.value) }
+      return line.removed
+        ? formatLinesWith(formatRem, line.value)
         : line.value
     })
     .join('')

@@ -1,0 +1,26 @@
+Started
+FF
+
+Failures:
+1) Jasmine Diff Matchers toEqual should show inline diff with colors
+Expected $.bar = 'bar' to equal 'baz'.
+
+[41m[37mactual[0m[0m [42m[30mexpected[0m[0m
+
+{
+  'bar': '[41m[37mbar[0m[0m[42m[30mbaz[0m[0m'
+  'foo': 'foo'
+}
+
+2) Jasmine Diff Matchers toEqual should include line numbers when diff exceeds 4 lines
+Expected $.baz = 'qux' to equal 'baz'.
+
+[41m[37mactual[0m[0m [42m[30mexpected[0m[0m
+
+1 | {
+2 |   'bar': 'bar'
+3 |   'baz': '[41m[37mqux[0m[0m[42m[30mbaz[0m[0m'
+4 |   'foo': 'foo'
+5 | }
+
+2 spec(s) / 2 failure(s)

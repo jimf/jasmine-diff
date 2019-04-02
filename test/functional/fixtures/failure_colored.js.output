@@ -1,0 +1,17 @@
+Started
+F
+
+Failures:
+1) Jasmine Diff Matchers toEqual should show diff with colors
+Expected object to have properties
+    baz: 'baz'
+Expected object not to have properties
+    bar: 'bar'
+
+[32m+ expected[0m
+[31m- actual[0m
+
+[31m-  'bar': 'bar'[0m
+[32m+  'baz': 'baz'[0m
+
+1 spec(s) / 1 failure(s)
