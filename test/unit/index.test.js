@@ -34,7 +34,7 @@ test('initialize', t => {
   t.throws(jasmineDiff.bind(null, { matchers: {} }), {}, 'throws if required matchers cannot be found')
 
   const subject = jasmineDiff(createJasmineStub())
-  t.deepEqual(Object.keys(subject), ['toBe', 'toEqual'], 'returns object with expected matchers')
+  t.deepEqual(Object.keys(subject), ['toBe', 'toEqual', 'toHaveBeenCalledWith'], 'returns object with expected matchers')
 
   t.end()
 })
