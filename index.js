@@ -449,22 +449,23 @@ module.exports = function jasmineDiffMatchers (j$, options) {
           var actual = args[0]
           var expectedArgs = args.slice(1)
           var result = { pass: false }
+          var actualName = String(actual.and.identity)
 
           if (!j$.isSpy(actual)) {
             throw new Error(getErrorMsg('Expected a spy, but got ' + j$.pp(actual) + '.'))
           }
 
           if (!actual.calls.any()) {
-            result.message = function () { return 'Expected spy ' + actual.and.identity() + ' to have been called with ' + j$.pp(expectedArgs) + ' but it was never called.' }
+            result.message = function () { return 'Expected spy ' + actualName + ' to have been called with ' + j$.pp(expectedArgs) + ' but it was never called.' }
             return result
           }
 
           if (util.contains(actual.calls.allArgs(), expectedArgs, customEqualityTesters)) {
             result.pass = true
-            result.message = function () { return 'Expected spy ' + actual.and.identity() + ' not to have been called with ' + j$.pp(expectedArgs) + ' but it was.' }
+            result.message = function () { return 'Expected spy ' + actualName + ' not to have been called with ' + j$.pp(expectedArgs) + ' but it was.' }
           } else {
             result.message = function () {
-              return 'Expected spy ' + actual.and.identity() + ' to have been called with different arguments:\n' +
+              return 'Expected spy ' + actualName + ' to have been called with different arguments:\n' +
                 actual.calls.allArgs().map(
                   (actualArgs) =>
                     isDiffable(actualArgs) && isDiffable(expectedArgs)

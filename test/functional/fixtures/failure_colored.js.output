@@ -1,5 +1,5 @@
 Started
-F
+FF
 
 Failures:
 1) Jasmine Diff Matchers toEqual should show diff with colors
@@ -14,4 +14,26 @@ Expected object not to have properties
 [31m-  'bar': 'bar'[0m
 [32m+  'baz': 'baz'[0m
 
-1 spec(s) / 1 failure(s)
+2) Jasmine Diff Matchers toHaveBeenCalledWith should show diff of arguments
+Expected spy test to have been called with different arguments:
+[32m+ expected[0m
+[31m- actual[0m
+
+[31m-        '0118999'[0m
+[31m-        88199[0m
+[31m-        9119725[0m
+[31m-        3[0m
+[32m+        false[0m
+[32m+        true[0m
+[32m+        0[0m
+[32m+        1[0m
+[32m+ expected[0m
+[31m- actual[0m
+
+[31m-        911[0m
+[32m+        false[0m
+[32m+        true[0m
+[32m+        0[0m
+[32m+        1[0m
+
+2 spec(s) / 2 failure(s)
