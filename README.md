@@ -48,6 +48,11 @@ Enables colored diff output.
 
 Display inline diffs (best paired with `colors:true`).
 
+#### `printDefaultMessages` (boolean, default: `true`)
+
+Display the default comparison's failure message before the unified diff.
+Can be set to false to show only the unified diff.
+
 ## Changelog
 
 #### 0.1.3
