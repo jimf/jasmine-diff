@@ -400,7 +400,8 @@ module.exports = function jasmineDiffMatchers (j$, options) {
   var opts = {
     colors: options && options.colors === true,
     inline: options && options.inline === true,
-    spaces: 2
+    spaces: 2,
+    printDefaultMessages: options ? options.printDefaultMessages : true,
   }
   var annotateAdd = opts.colors ? (opts.inline ? greenBg : green) : identity
   var annotateRemove = opts.colors ? (opts.inline ? redBg : red) : identity
@@ -421,10 +422,13 @@ module.exports = function jasmineDiffMatchers (j$, options) {
             return result
           }
 
-          result.message = (result.message || defaultMessage(actual, expected, desc)) +
-            '\n\n' + errorDiff(stringify(actual), stringify(expected), annotateAdd, annotateRemove) + '\n'
+          var defaultMessage = opts.printDefaultMessages ?
+              (result.message || defaultMessage(actual, expected, desc)) + '\n\n' : '';
+          result.message = defaultMessage
+              + errorDiff(stringify(actual), stringify(expected), annotateAdd, annotateRemove)
+              + '\n'
 
-          return result
+          return result;
         }
       }
     }
